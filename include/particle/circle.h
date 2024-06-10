@@ -17,6 +17,7 @@ public:
     float radius;
 
     Circle();
+    Circle(Component pos);
     Circle(Component pos, Color c);
     Circle(Component pos, Component initialVelocity, Color c);
 
