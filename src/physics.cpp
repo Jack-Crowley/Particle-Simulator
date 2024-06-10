@@ -3,7 +3,6 @@
 #include <cmath>
 
  // Do we need like a centralized list of like circles?
-std::vector <Circle> circlesToSimulate = std::vector<Circle>();
 
 
 
@@ -45,8 +44,8 @@ void find_collisions(std::vector<Circle> circles){
 
     // very unoptimized rn
 
-    for (Circle circ1 : circlesToSimulate){
-        for (Circle circ2 : circlesToSimulate){
+    for (Circle circ1 : circles){
+        for (Circle circ2 : circles){
             if (&circ1 != &circ2){
 
                 handle_collision(circ1, circ2);
