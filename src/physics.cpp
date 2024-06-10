@@ -82,3 +82,10 @@ void update_physics_sub_steps(float dt, int sub_steps, std::vector<Circle> circl
 
 
 }
+
+void add_particles(std::vector<Circle> circles)
+{
+    for (Circle circle : circles) {
+        
+    }
+}
