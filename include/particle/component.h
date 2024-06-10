@@ -2,10 +2,12 @@
 #define COMPONENT_H
 
 class Component {
+    
+
+public:
     float x;
     float y;
 
-public:
     Component();
     Component(float x, float y);
 

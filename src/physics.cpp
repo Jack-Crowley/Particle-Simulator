@@ -1,41 +1,6 @@
 #include <vector>
-
-
-class Circle {
-
-    public:
-        double radius;
-
-        double xPos;
-        double yPos;
-
-        double xVel;
-        double yVel;
-
-        double xAcc;
-        double yAcc;
-
-    Circle(double r, double xStart, double yStart){
-
-        radius = r;
-
-        xPos = xStart;
-        yPos = yStart;
-
-    }
-
-    public:
-    void update(){
-
-        // Maybe can change this for concurrency 
-
-        xVel += xAcc;
-        xPos += xVel;
-
-        yVel += yAcc;
-        yPos += yVel;
-    }
-};
+#include "circle.h"
+#include <cmath>
 
 std::vector <Circle> circlesToSimulate = std::vector<Circle>();
 
@@ -55,15 +20,15 @@ void handle_collision(Circle circ1, Circle circ2){
     
     // Do trig stuff
            
-    if (circ1.xPos > circ2.xPos){
+    if (circ1.position.x > circ2.position.x){
         Circle temp = circ1;
         circ1 = circ2;
         circ2 = temp;
     }
 
     // circ1 is left
-    double xDiff = circ2.xPos - circ1.xPos;
-    double yDiff = circ2.yPos - circ1.yPos;
+    double xDiff = circ2.position.x - circ1.position.x;
+    double yDiff = circ2.position.y - circ1.position.y;
 
     double distanceBetweenCircles = sqrt(xDiff*xDiff + yDiff*yDiff);
 
@@ -71,14 +36,14 @@ void handle_collision(Circle circ1, Circle circ2){
 
     double angleBetweenCircles = atan(yDiff/xDiff);
 
-    double xToShift =  cos(angleBetweenCircles) * overlap/2;
+    double xToShift = cos(angleBetweenCircles) * overlap/2;
     double yToShift = sin(angleBetweenCircles) * overlap/2;
 
-    circ1.xPos -= xToShift;
-    circ2.xPos += xToShift;
+    circ1.position.x  -= xToShift;
+    circ2.position.x  += xToShift;
 
-    circ1.yPos -= yToShift;
-    circ2.yPos += yToShift;
+    circ1.position.y -= yToShift;
+    circ2.position.y += yToShift;
     
 
 }

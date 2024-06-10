@@ -1,6 +1,6 @@
-#include "renderer.h"
-#include "circle.h"
 #include <vector>
+#include "circle.h"
+#include "renderer.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
