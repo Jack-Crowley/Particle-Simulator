@@ -2,19 +2,10 @@
 #include "circle.h"
 #include <cmath>
 
+ // Do we need like a centralized list of like circles?
 std::vector <Circle> circlesToSimulate = std::vector<Circle>();
 
-void update_physics(float dt)
-{
-     // Do we need like a centralized list of like circles?
-    for (Circle circle : circlesToSimulate){
-        // Maybe there's a better way to synchronize things?
-        circle.update();
-        // Can probably have an apply forces method as well later on
-    }
-    
 
-}
 
 void handle_collision(Circle circ1, Circle circ2){
     
@@ -34,27 +25,60 @@ void handle_collision(Circle circ1, Circle circ2){
 
     double overlap = distanceBetweenCircles - circ1.radius - circ2.radius;
 
-    double angleBetweenCircles = atan(yDiff/xDiff);
+    if (overlap > 0){
+        double angleBetweenCircles = atan(yDiff/xDiff);
 
-    double xToShift = cos(angleBetweenCircles) * overlap/2;
-    double yToShift = sin(angleBetweenCircles) * overlap/2;
+        double xToShift = cos(angleBetweenCircles) * overlap/2;
+        double yToShift = sin(angleBetweenCircles) * overlap/2;
 
-    circ1.position.x  -= xToShift;
-    circ2.position.x  += xToShift;
+        circ1.position.x  -= xToShift;
+        circ2.position.x  += xToShift;
 
-    circ1.position.y -= yToShift;
-    circ2.position.y += yToShift;
+        circ1.position.y -= yToShift;
+        circ2.position.y += yToShift;
+    }
+
+}
+
+
+void find_collisions(std::vector<Circle> circles){
+
+    // very unoptimized rn
+
+    for (Circle circ1 : circlesToSimulate){
+        for (Circle circ2 : circlesToSimulate){
+            if (&circ1 != &circ2){
+
+                handle_collision(circ1, circ2);
+
+            }
+        }
+    }
+}
+
+void update_physics(float dt, std::vector<Circle> circles)
+{
+    
+    // Idk if we want to put this here or if this should go in engine
+    find_collisions(circles);
+
+    for (Circle circle : circles){
+        // Maybe there's a better way to synchronize things?
+        circle.update();
+        // Can probably have an apply forces method as well later on
+    }
     
 
 }
 
 
-void update_physics_sub_steps(float dt, int sub_steps)
+
+void update_physics_sub_steps(float dt, int sub_steps, std::vector<Circle> circles)
 {
     const float sub_dt = dt / float(sub_steps);
     for (int i{sub_steps};i--;)
     {
-        update_physics(sub_dt);
+        update_physics(sub_dt, circles);
     }
 
 

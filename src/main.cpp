@@ -1,6 +1,8 @@
 #include <vector>
 #include "circle.h"
 #include "renderer.h"
+#include "physics.h"
+
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -70,6 +72,8 @@ int main(int, char**)
 
     while (!glfwWindowShouldClose(window))
     {
+       // Figure out how t
+        update_physics_sub_steps(1,  8, circles);
         glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();
