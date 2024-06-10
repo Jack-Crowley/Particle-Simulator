@@ -67,7 +67,7 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
    
 
-    std::vector<Circle> circles{Circle()};
+    std::vector<Circle> circles{Circle(Component(50,50), Color(255,255,255))};
 
     while (!glfwWindowShouldClose(window))
     {
@@ -119,7 +119,7 @@ int main(int, char**)
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
-        drawCircles(circles);
+        drawCircles(window, circles);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
