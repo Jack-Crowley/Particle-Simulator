@@ -22,6 +22,9 @@ public:
     Circle(Component pos, Component initialVelocity, Color c);
 
     void update();
+
+    void shiftX(float shift);
+    void shiftY(float shift);
 };
 
 #endif

@@ -67,7 +67,12 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
    
 
-    std::vector<Circle> circles{Circle(Component(50,50), Color(255,255,255))};
+    std::vector<Circle> circles{
+        Circle(Component(5,5), Color(255,255,255)),
+        Circle(Component(-5,-5), Color(255,255,255)),
+        Circle(Component(5,-5), Color(255,255,255)),
+        Circle(Component(-5,5), Color(255,255,255))
+        };
 
     while (!glfwWindowShouldClose(window))
     {
