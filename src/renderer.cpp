@@ -4,13 +4,13 @@
 #include <cmath>
 #include "stdio.h"
 
-void drawCircles(GLFWwindow* window, std::vector<Circle> circles, float &f) {
+void drawCircles(GLFWwindow* window, std::vector<Circle> circles, float &scaleFactor) {
     int width, height;
     glfwGetWindowSize(window, &width, &height);
 
     float aspectRatio = ((float) height)/width;
 
-    float scalingFactor = f;
+    float scalingFactor = scaleFactor;
 
     for (Circle circ : circles) {
         glBegin(GL_LINE_LOOP);
@@ -21,7 +21,7 @@ void drawCircles(GLFWwindow* window, std::vector<Circle> circles, float &f) {
             // x = aspectRatio * radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor;
 
             // Works without aspectRatio scaling atm
-            x = radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor;
+            x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor);
             y = radius * sin(i * 3.14159 / 180.0) + circ.position.y/scalingFactor;
             glVertex2f(x, y);
         }

@@ -69,12 +69,13 @@ void update_physics(float dt, std::vector<Circle> &circles)
     
     // Idk if we want to put this here or if this should go in engine
     
+    
+    find_collisions(circles);
     for (Circle circle : circles){
         // Maybe there's a better way to synchronize things?
         circle.update();
         // Can probably have an apply forces method as well later on
     }
-    find_collisions(circles);
 
  
     
