@@ -54,6 +54,8 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 
 int main(int, char **)
 {
+    const uint32_t frame_rate = 60;
+
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
@@ -113,9 +115,14 @@ int main(int, char **)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        static float f = 250.0f;
+
         static float size = 10.0f;
         static float scale = 10.0f;
         static bool showGrid = false;
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
+        
 
         {
             ImGui::Begin("Particle Simulator!");

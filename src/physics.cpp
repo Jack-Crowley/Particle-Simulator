@@ -11,12 +11,12 @@ void handle_collision(Circle &circ1, Circle &circ2){
     
     // Do trig stuff
            
-    if (circ1.position.x < circ2.position.x){
+    if (circ1.position_cur.x < circ2.position_cur.x){
 
         // circ1 is left
        
-        float xDiff = circ2.position.x - circ1.position.x;
-        float yDiff = circ2.position.y - circ1.position.y;
+        float xDiff = circ2.position_cur.x - circ1.position_cur.x;
+        float yDiff = circ2.position_cur.y - circ1.position_cur.y;
 
         float distanceBetweenCircles = sqrt(xDiff*xDiff + yDiff*yDiff);
        
@@ -30,16 +30,17 @@ void handle_collision(Circle &circ1, Circle &circ2){
             float xToShift = cos(angleBetweenCircles) * overlap/2;
             float yToShift = sin(angleBetweenCircles) * overlap/2;
 
-            printf("Initial circ1: (%f, %f)\n",circ1.position.x , circ1.position.y);
-            printf("Initial circ2: (%f, %f)\n",circ2.position.x , circ2.position.y);
+            printf("Initial circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
+            printf("Initial circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
+        
             circ1.shiftX(-xToShift);
             circ2.shiftX(xToShift);
 
             circ1.shiftY(-yToShift);
             circ2.shiftY(yToShift);
 
-            printf("Final circ1: (%f, %f)\n",circ1.position.x , circ1.position.y);
-            printf("Final circ2: (%f, %f)\n",circ2.position.x , circ2.position.y);
+            printf("Final circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
+            printf("Final circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
         }
     }
 
@@ -64,6 +65,34 @@ void find_collisions(std::vector<Circle> &circles){
     }
 }
 
+void applyGravity(std::vector<Circle> &circles){
+    Component gravity = Component(0.0, -0.1);
+    for (Circle &circle : circles){
+        // Maybe there's a better way to synchronize things?
+        circle.accelerate(gravity);
+        // Can probably have an apply forces method as well later on
+    }
+}
+
+void applyContraints(std::vector<Circle> &circles){
+    Component origin = Component(0.0, 0.0);
+    float radius = 200.0;
+    for (Circle &circle : circles){
+        // Maybe there's a better way to synchronize things?
+        Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
+
+        float dist = sqrt(to_obj.x*to_obj.x +  to_obj.y*to_obj.y);
+        // printf("Final circ2: (%f)\n",dist);
+        if (dist > radius){
+
+            // Component n = Component(to_obj.x/dist, to_obj.y/dist);
+            // circle.position_cur = Component(circle.position_cur.x + n.x*(dist-50.0f),circle.position_cur.y + n.y*(dist-50.0f));
+            circle.position_cur = Component(circle.position_cur.x *radius/dist, circle.position_cur.y *radius/dist);
+        }
+        // Can probably have an apply forces method as well later on
+    }
+}
+
 void update_physics(float dt, std::vector<Circle> &circles)
 {
     
@@ -71,9 +100,11 @@ void update_physics(float dt, std::vector<Circle> &circles)
     
     
     find_collisions(circles);
-    for (Circle circle : circles){
+    applyGravity(circles);
+    applyContraints(circles);
+    for (Circle &circle : circles){
         // Maybe there's a better way to synchronize things?
-        circle.update();
+        circle.update(dt);
         // Can probably have an apply forces method as well later on
     }
 
