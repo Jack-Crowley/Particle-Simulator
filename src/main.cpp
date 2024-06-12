@@ -37,7 +37,7 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         glfwGetCursorPos(window, &xPos, &yPos);
 
         float xValue = 2*((xPos-(getWidth(window)-getHeight(window))/2)/(getHeight(window))*1000-500);
-        Component comp = Component(xValue*calculateAspectRatio(window), yPos-360);
+        Component comp = Component(xValue*calculateAspectRatio(window), -1*(yPos-360));
         for (Circle& c : getCircles())
         {
             if (c.getDistance(comp) <= c.radius/2)

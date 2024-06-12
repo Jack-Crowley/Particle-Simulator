@@ -108,7 +108,7 @@ void update_physics(float dt)
     // Idk if we want to put this here or if this should go in engine
     
     
-    // find_collisions();
+    find_collisions();
     applyGravity();
     // applyContraints();
     for (Circle &circle : getCircles()){

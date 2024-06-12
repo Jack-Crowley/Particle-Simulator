@@ -1,1 +1,3 @@
-static bool debug = false;
+#include "staticManager.h"
+
+bool debug = false;
