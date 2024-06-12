@@ -40,8 +40,6 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         Component comp = Component(xValue*calculateAspectRatio(window), yPos-360);
         for (Circle& c : getCircles())
         {
-            printf("clicked (%f, %f) (%f, %f)\n", comp.x, comp.y, xPos, yPos);
-
             if (c.getDistance(comp) <= c.radius/2)
             {
                 clickedCircle = &c;
@@ -101,7 +99,7 @@ int main(int, char **)
     std::vector<Circle> circles{
         Circle(Component(125, 125), Color(255, 255, 255)),
         Circle(Component(-125, -125), Color(255, 255, 255)),
-        Circle(Component(125, -125), Color(255, 255, 255)),
+        Circle(Component(100, -100), Color(255, 255, 255)),
         Circle(Component(-125, 125), Color(255, 255, 255))};
 
     setCircles(circles);
@@ -109,7 +107,7 @@ int main(int, char **)
     while (!glfwWindowShouldClose(window))
     {
         // Figure out how t
-        update_physics_sub_steps(1, 8, circles);
+        update_physics_sub_steps(1, 8);
         glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();
@@ -133,7 +131,6 @@ int main(int, char **)
             ImGui::Checkbox("Show Grid", &showGrid);
             ImGui::Checkbox("Debug Mode", &debug);
 
-            ImGui::SameLine();
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
         }

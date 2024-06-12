@@ -1,3 +1,4 @@
+#include "sceneManager.h"
 #include "circle.h"
 #include <stdio.h>
 #include <vector>
@@ -8,7 +9,7 @@ void setCircles(std::vector<Circle> newCircles) {
     circles = newCircles;
 }
 
-std::vector<Circle> getCircles() {
+std::vector<Circle>& getCircles() {
     return circles;
 }
 

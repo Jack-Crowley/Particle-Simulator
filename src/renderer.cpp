@@ -41,7 +41,7 @@ void drawCircles(GLFWwindow *window)
 {
     float aspectRatio = calculateAspectRatio(window);
 
-    for (Circle circ : getCircles())
+    for (Circle &circ : getCircles())
     {
         glBegin(GL_LINE_LOOP);
         glColor3f(1.0, 1.0, 1.0);
