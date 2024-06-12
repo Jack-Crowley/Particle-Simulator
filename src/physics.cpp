@@ -76,7 +76,7 @@ void find_collisions(){
 void applyGravity(){
     Component gravity = Component(0.0, -0.1);
     for (Circle &circle : getCircles()) {
-        circle.position_cur.y -=.01;
+        circle.position_cur.y -= fallSpeed;
         // Maybe there's a better way to synchronize things?
         // circle.accelerate(gravity);
         // Can probably have an apply forces method as well later on
