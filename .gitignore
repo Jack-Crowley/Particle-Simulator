@@ -3,4 +3,5 @@
 build/*
 !build/*.dll
 
-*.ini
+build/imgui.ini
+imgui.ini
