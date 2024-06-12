@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "sceneManager.h"
 
+// These all need to be divided by the same thing
 float getNormalizedX(float x)
 {
     return x / 500.0;

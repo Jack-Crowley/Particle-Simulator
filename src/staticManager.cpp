@@ -2,4 +2,4 @@
 
 bool debug = false;
 bool pause = false;
-float fallSpeed = .01f;
+float fallSpeed = 0.0f;

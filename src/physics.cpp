@@ -72,11 +72,12 @@ void find_collisions(){
 }
 
 void applyGravity(){
-    Component gravity = Component(0.0, -0.1);
+    // printf("fall speed: (%f)\n",fallSpeed);
+    Component gravity = Component(0.0, -fallSpeed);
     for (Circle &circle : getCircles()) {
-        circle.position_cur.y -= fallSpeed;
+        // circle.position_cur.y -= fallSpeed;
         // Maybe there's a better way to synchronize things?
-        // circle.accelerate(gravity);
+        circle.accelerate(gravity);
         // Can probably have an apply forces method as well later on
     }
 }
@@ -108,10 +109,10 @@ void update_physics(float dt)
     
     find_collisions();
     applyGravity();
-    // applyContraints();
+    applyContraints();
     for (Circle &circle : getCircles()){
         // Maybe there's a better way to synchronize things?
-        // circle.update(dt);
+        circle.update(dt);
         // Can probably have an apply forces method as well later on
     }
 
