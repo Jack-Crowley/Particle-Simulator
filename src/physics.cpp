@@ -74,7 +74,8 @@ void find_collisions(){
 }
 
 void applyGravity(){
-    Component gravity = Component(0.0, -0.1);
+    // printf("fall speed: (%f)\n",fallSpeed);
+    Component gravity = Component(0.0, -fallSpeed);
     for (Circle &circle : getCircles()) {
         // circle.position_cur.y -= fallSpeed;
         // Maybe there's a better way to synchronize things?
