@@ -27,6 +27,8 @@ static void glfw_error_callback(int error, const char* description)
 
 int main(int, char**)
 {
+    const uint32_t frame_rate = 60;
+
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
@@ -68,10 +70,10 @@ int main(int, char**)
    
 
     std::vector<Circle> circles{
-        Circle(Component(5,5), Color(255,255,255)),
-        Circle(Component(-5,-5), Color(255,255,255)),
-        Circle(Component(5,-5), Color(255,255,255)),
-        Circle(Component(-5,5), Color(255,255,255))
+        Circle(Component(10,10), Color(255,255,255)),
+        Circle(Component(-10,-10), Color(255,255,255)),
+        Circle(Component(10,-10), Color(255,255,255)),
+        Circle(Component(-10,10), Color(255,255,255))
         };
 
     while (!glfwWindowShouldClose(window))
@@ -84,7 +86,7 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-         static float f = 10.0f;
+        static float f = 250.0f;
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);

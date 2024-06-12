@@ -6,7 +6,8 @@
 
 class Circle {
 public:
-    Component position;
+    Component position_cur;
+    Component position_old;
     Component velocity;
     Component acceleration;
     Component jerk;
@@ -21,7 +22,9 @@ public:
     Circle(Component pos, Color c);
     Circle(Component pos, Component initialVelocity, Color c);
 
-    void update();
+    void update(float dt);
+    
+    void accelerate(Component acc);
 
     void shiftX(float shift);
     void shiftY(float shift);

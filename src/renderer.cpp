@@ -21,8 +21,8 @@ void drawCircles(GLFWwindow* window, std::vector<Circle> circles, float &scaleFa
             // x = aspectRatio * radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor;
 
             // Works without aspectRatio scaling atm
-            x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor);
-            y = radius * sin(i * 3.14159 / 180.0) + circ.position.y/scalingFactor;
+            x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + circ.position_cur.x/scalingFactor);
+            y = radius * sin(i * 3.14159 / 180.0) + circ.position_cur.y/scalingFactor;
             glVertex2f(x, y);
         }
         glEnd();
