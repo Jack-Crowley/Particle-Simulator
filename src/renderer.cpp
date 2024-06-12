@@ -48,8 +48,8 @@ void drawCircles(GLFWwindow *window)
         float radius = getNormalizedRadius(circ.radius);
         for (int i = 0; i < 360; i++)
         {
-            float x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + getNormalizedX(circ.position.x));
-            float y = radius * sin(i * 3.14159 / 180.0) + getNormalizedY(circ.position.y);
+            float x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + getNormalizedX(circ.position_cur.x));
+            float y = radius * sin(i * 3.14159 / 180.0) + getNormalizedY(circ.position_cur.y);
             glVertex2f(x, y);
         }
         glEnd();

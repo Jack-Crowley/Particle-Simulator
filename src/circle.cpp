@@ -68,10 +68,9 @@ void Circle::shiftX(float shift){
 }
 
 void Circle::shiftY(float shift){
-     this->position = Component(this->position.x,this->position.y + shift); 
      this->position_cur = Component(this->position_cur.x,this->position_cur.y + shift); 
 }
 
 float Circle::getDistance(Component pos) {
-    return sqrt(pow(position.x - pos.x, 2) + pow(position.y - pos.y, 2));
+    return sqrt(pow(position_cur.x - pos.x, 2) + pow(position_cur.y - pos.y, 2));
 }

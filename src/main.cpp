@@ -143,8 +143,8 @@ int main(int, char **)
         {
             ImGui::Begin("Clicked Particle");
 
-            ImGui::InputFloat("X Position", &clickedCircle->position.x);
-            ImGui::InputFloat("Y Position", &clickedCircle->position.y);
+            ImGui::InputFloat("X Position", &clickedCircle->position_cur.x);
+            ImGui::InputFloat("Y Position", &clickedCircle->position_cur.y);
 
             ImGui::End();
         }
