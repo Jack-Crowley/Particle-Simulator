@@ -1,5 +1,6 @@
 #include <vector>
 #include "circle.h"
+#include "staticManager.h"
 #include <cmath>
 #include <stdio.h>
 
@@ -24,23 +25,29 @@ void handle_collision(Circle &circ1, Circle &circ2){
         float overlap = circ1.radius + circ2.radius - distanceBetweenCircles;
 
         if (overlap > 0){
-            printf("Dist: (%f)\n",overlap);
+            if (debug)
+                printf("Dist: (%f)\n",overlap);
+
             float angleBetweenCircles = atan(yDiff/xDiff);
 
             float xToShift = cos(angleBetweenCircles) * overlap/2;
             float yToShift = sin(angleBetweenCircles) * overlap/2;
 
-            printf("Initial circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
-            printf("Initial circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
-        
+            if (debug) {
+                printf("Initial circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
+                printf("Initial circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
+            }
+
             circ1.shiftX(-xToShift);
             circ2.shiftX(xToShift);
 
             circ1.shiftY(-yToShift);
             circ2.shiftY(yToShift);
 
-            printf("Final circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
-            printf("Final circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
+            if (debug) {
+                printf("Final circ1: (%f, %f)\n",circ1.position_cur.x , circ1.position_cur.y);
+                printf("Final circ2: (%f, %f)\n",circ2.position_cur.x , circ2.position_cur.y);
+            }
         }
     }
 

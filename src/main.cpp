@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include "physics.h"
 #include "sceneManager.h"
+#include "staticManager.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -120,8 +121,6 @@ int main(int, char **)
         static float size = 10.0f;
         static float scale = 10.0f;
         static bool showGrid = false;
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
         
 
         {
@@ -129,10 +128,10 @@ int main(int, char **)
 
             ImGui::Text("This is some useful text.");
 
-            ImGui::SliderFloat("Scale", &scale, 10.0f, 250.0f);
             ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
 
             ImGui::Checkbox("Show Grid", &showGrid);
+            ImGui::Checkbox("Debug Mode", &debug);
 
             ImGui::SameLine();
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
