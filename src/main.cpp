@@ -2,7 +2,7 @@
 #include "circle.h"
 #include "renderer.h"
 #include "physics.h"
-
+#include "sceneManager.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -18,52 +18,70 @@
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
-static void glfw_error_callback(int error, const char* description)
+static void glfw_error_callback(int error, const char *description)
 {
     fprintf(stderr, "GLFW Error %d: %s\n", error, description);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+Circle *clickedCircle = nullptr;
+
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
+    if (ImGui::IsWindowHovered(ImGuiHoveredFlags_AnyWindow))
+        return;
+
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        printf( "Mouse click at (%f, %f)\n", xpos, ypos);
+        double xPos, yPos;
+        glfwGetCursorPos(window, &xPos, &yPos);
+
+        float xValue = 2*((xPos-(getWidth(window)-getHeight(window))/2)/(getHeight(window))*1000-500);
+        Component comp = Component(xValue*calculateAspectRatio(window), yPos-360);
+        for (Circle& c : getCircles())
+        {
+            printf("clicked (%f, %f) (%f, %f)\n", comp.x, comp.y, xPos, yPos);
+
+            if (c.getDistance(comp) <= c.radius/2)
+            {
+                clickedCircle = &c;
+                printf("clicked (%f, %f) (%f, %f)\n", comp.x, comp.y, xPos, yPos);
+                return;
+            }
+        }
+        clickedCircle = nullptr;
     }
 }
 
-
-
-int main(int, char**)
+int main(int, char **)
 {
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
 
     // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 130";
+    const char *glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", nullptr, nullptr);
     if (window == nullptr)
         return 1;
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1); 
+    glfwSwapInterval(1);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
 
     ImGui::StyleColorsDark();
 
-    ImGuiStyle& style = ImGui::GetStyle();
+    ImGuiStyle &style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         style.WindowRounding = 0.0f;
@@ -76,20 +94,19 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0, 0, 0, 1.00f);
-   
 
     std::vector<Circle> circles{
-        Circle(Component(5,5), Color(255,255,255)),
-        Circle(Component(-5,-5), Color(255,255,255)),
-        Circle(Component(5,-5), Color(255,255,255)),
-        Circle(Component(-5,5), Color(255,255,255))
-        };
+        Circle(Component(125, 125), Color(255, 255, 255)),
+        Circle(Component(-125, -125), Color(255, 255, 255)),
+        Circle(Component(125, -125), Color(255, 255, 255)),
+        Circle(Component(-125, 125), Color(255, 255, 255))};
 
+    setCircles(circles);
 
     while (!glfwWindowShouldClose(window))
     {
-       // Figure out how t
-        update_physics_sub_steps(1,  8, circles);
+        // Figure out how t
+        update_physics_sub_steps(1, 8, circles);
         glfwPollEvents();
 
         ImGui_ImplOpenGL3_NewFrame();
@@ -105,13 +122,23 @@ int main(int, char**)
 
             ImGui::Text("This is some useful text.");
 
-            ImGui::SliderFloat("Scale", &scale, 10.0f, 250.0f);      
-            ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);      
+            ImGui::SliderFloat("Scale", &scale, 10.0f, 250.0f);
+            ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
 
             ImGui::Checkbox("Show Grid", &showGrid);
 
             ImGui::SameLine();
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::End();
+        }
+
+        if (clickedCircle != nullptr)
+        {
+            ImGui::Begin("Clicked Particle");
+
+            ImGui::InputFloat("X Position", &clickedCircle->position.x);
+            ImGui::InputFloat("Y Position", &clickedCircle->position.y);
+
             ImGui::End();
         }
 
@@ -121,22 +148,26 @@ int main(int, char**)
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT);
-        if (showGrid) {
+
+        // All of stuff here
+        if (showGrid)
+        {
             drawGrid(window, size);
         }
 
-        drawCircles(window, circles, scale);
+        drawMap(window);
+
+        drawCircles(window);
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            GLFWwindow *backup_current_context = glfwGetCurrentContext();
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
             glfwMakeContextCurrent(backup_current_context);
         }
-
 
         glfwSwapBuffers(window);
     }
@@ -150,4 +181,3 @@ int main(int, char**)
 
     return 0;
 }
-

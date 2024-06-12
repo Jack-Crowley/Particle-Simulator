@@ -1,6 +1,7 @@
 #include "circle.h"
 #include "component.h"
 #include "color.h"
+#include <math.h>
 #include <stdio.h>
 
 Circle::Circle() {
@@ -9,7 +10,7 @@ Circle::Circle() {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = Color(255,255,255);
-    this->radius = 10;
+    this->radius = 250;
 }
 
 
@@ -19,7 +20,7 @@ Circle::Circle(Component pos) {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = Color(255,255,255);
-    this->radius = 10;
+    this->radius = 250;
 }
 
 
@@ -29,7 +30,7 @@ Circle::Circle(Component pos, Color c = Color(255,255,255)) {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = c;
-    this->radius = 10;
+    this->radius = 250;
 }
 
 Circle::Circle(Component pos, Component initalVelocity, Color c = Color(255,255,255)) {
@@ -38,7 +39,7 @@ Circle::Circle(Component pos, Component initalVelocity, Color c = Color(255,255,
     this->acceleration = Component();
     this->jerk = Component();
     this->color = c;
-    this->radius = 10;
+    this->radius = 250;
 }
 
 void Circle::update(){
@@ -52,4 +53,8 @@ void Circle::shiftX(float shift){
 
 void Circle::shiftY(float shift){
      this->position = Component(this->position.x,this->position.y + shift); 
+}
+
+float Circle::getDistance(Component pos) {
+    return sqrt(pow(position.x - pos.x, 2) + pow(position.y - pos.y, 2));
 }

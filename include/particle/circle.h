@@ -25,6 +25,8 @@ public:
 
     void shiftX(float shift);
     void shiftY(float shift);
+
+    float getDistance(Component pos);
 };
 
 #endif
