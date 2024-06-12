@@ -30,11 +30,8 @@ void drawCircles(GLFWwindow* window, std::vector<Circle> circles, float &scaleFa
         glColor3f(1.0, 1.0, 1.0);
         float radius = getNormalizedRadius(circ.radius);
         for (int i = 0; i < 360; i++) {
-            // x = aspectRatio * radius * cos(i * 3.14159 / 180.0) + circ.position.x/scalingFactor;
-
-            // Works without aspectRatio scaling atm
-            float x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + circ.position_cur.x/scalingFactor);
-            float y = radius * sin(i * 3.14159 / 180.0) + circ.position_cur.y/scalingFactor;
+            float x = aspectRatio * (radius * cos(i * 3.14159 / 180.0) + getNormalizedX(circ.position_cur.x));
+            float y = radius * sin(i * 3.14159 / 180.0) + getNormalizedY(circ.position_cur.y);
             glVertex2f(x, y);
         }
         glEnd();
