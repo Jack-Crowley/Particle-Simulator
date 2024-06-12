@@ -5,7 +5,7 @@
 
 std::vector<Circle> circles;
 
-void setCircles(std::vector<Circle> newCircles) {
+void setCircles(std::vector<Circle> &newCircles) {
     circles = newCircles;
 }
 
@@ -14,12 +14,12 @@ std::vector<Circle>& getCircles() {
 }
 
 
-void addCircles(Circle circle) {
+void addCircles(Circle &circle) {
     circles.push_back(circle);
 }
 
-void addCircles(std::vector<Circle> newCircles) {
-    for (Circle c : newCircles) {
+void addCircles(std::vector<Circle> &newCircles) {
+    for (Circle &c : newCircles) {
         circles.push_back(c);
     }
 }

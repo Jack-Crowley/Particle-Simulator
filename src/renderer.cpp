@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "sceneManager.h"
 
+// These all need to be divided by the same thing
 float getNormalizedX(float x)
 {
     return x / 500.0;
@@ -17,7 +18,7 @@ float getNormalizedY(float y)
 
 float getNormalizedRadius(float r)
 {
-    return r / 1000.0;
+    return r / 500.0;
 }
 
 float getHeight(GLFWwindow *window) {
