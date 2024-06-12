@@ -97,8 +97,8 @@ int main(int, char **)
 
     std::vector<Circle> circles{
         Circle(Component(125, 125), Color(255, 255, 255)),
-        Circle(Component(-125, -125), Color(255, 255, 255)),
-        Circle(Component(100, -100), Color(255, 255, 255)),
+        // Circle(Component(-125, -125), Color(255, 255, 255)),
+        // Circle(Component(100, -100), Color(255, 255, 255)),
         Circle(Component(-125, 125), Color(255, 255, 255))};
 
     setCircles(circles);
@@ -125,14 +125,21 @@ int main(int, char **)
         {
             ImGui::Begin("Particle Simulator!");
 
-            ImGui::Text("This is some useful text.");
+            ImGui::NewLine();        
 
             ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
             ImGui::SliderFloat("Speed", &fallSpeed, -.5f, .5f);
 
+            ImGui::NewLine();        
+
             ImGui::Checkbox("Show Grid", &showGrid);
             ImGui::Checkbox("Debug Mode", &debug);
             ImGui::Checkbox("Pause", &pause);
+
+            if (ImGui::Button("Move Physics")) {
+                update_physics_sub_steps(1, 8);
+            }
+
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
@@ -146,22 +153,34 @@ int main(int, char **)
             ImGui::InputFloat("Curr-X", &clickedCircle->position_cur.x);
             ImGui::InputFloat("Curr-Y", &clickedCircle->position_cur.y);
 
+            ImGui::NewLine();        
 
             ImGui::Text("Old Position");
             ImGui::InputFloat("Old-X", &clickedCircle->position_old.x);
             ImGui::InputFloat("Old-Y", &clickedCircle->position_old.y);
 
+            ImGui::NewLine();    
+
             ImGui::Text("Velocity");
             ImGui::InputFloat("Vel-X", &clickedCircle->velocity.x);
             ImGui::InputFloat("Vel-Y", &clickedCircle->velocity.y);
+
+            ImGui::NewLine();        
 
             ImGui::Text("Acceleration");
             ImGui::InputFloat("Acc-X", &clickedCircle->acceleration.x);
             ImGui::InputFloat("Acc-Y", &clickedCircle->acceleration.y);
 
+            ImGui::NewLine();        
+
             ImGui::Text("Jerk");
             ImGui::InputFloat("Jer-X", &clickedCircle->jerk.x);
             ImGui::InputFloat("Jer-Y", &clickedCircle->jerk.y);
+
+            ImGui::NewLine();    
+
+            ImGui::Text("Radius");
+            ImGui::InputFloat("Radius", &clickedCircle->radius);
 
             ImGui::End();
         }

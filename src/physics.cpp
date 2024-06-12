@@ -20,12 +20,10 @@ void handle_collision(Circle &circ1, Circle &circ2){
         float xDiff = circ2.position_cur.x - circ1.position_cur.x;
         float yDiff = circ2.position_cur.y - circ1.position_cur.y;
 
-        float distanceBetweenCircles = sqrt(xDiff*xDiff + yDiff*yDiff);
-       
+        float distanceBetweenCircles = circ1.getDistance(circ2.position_cur);
 
         float overlap = circ1.radius + circ2.radius - distanceBetweenCircles;
-
-        if (overlap > 0){
+        if (overlap > 0.001){
             if (debug)
                 printf("Dist: (%f)\n",overlap);
 

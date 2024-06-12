@@ -17,7 +17,7 @@ float getNormalizedY(float y)
 
 float getNormalizedRadius(float r)
 {
-    return r / 1000.0;
+    return r / 500.0;
 }
 
 float getHeight(GLFWwindow *window) {
