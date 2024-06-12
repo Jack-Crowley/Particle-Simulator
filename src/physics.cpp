@@ -101,6 +101,14 @@ void applyContraints(){
     }
 }
 
+void summonForce(Component c){
+    for (Circle &circle : getCircles()){
+        Component force = Component((c.x-circle.position_cur.x)/3,(c.y - circle.position_cur.y)/3);
+        circle.accelerate(force);
+    }
+}
+
+
 void update_physics(float dt)
 {
     

@@ -1,5 +1,6 @@
 #include <vector>
 #include "circle.h"
+#include "component.h"
 
 
 
@@ -16,6 +17,8 @@ void applyGravity();
 void applyConstraints();
 
 void update_physics(float dt);
+
+void summonForce(Component c);
 
 
 
