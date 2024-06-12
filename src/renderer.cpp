@@ -55,17 +55,6 @@ void drawCircles(GLFWwindow *window)
         }
         glEnd();
     }
-
-    glBegin(GL_LINE_LOOP);
-    glColor3f(1.0, 1.0, 1.0);
-    float radius = getNormalizedRadius(200);
-    for (int i = 0; i < 360; i++)
-    {
-        float x = aspectRatio * radius * cos(i * 3.14159 / 180.0);
-        float y = radius * sin(i * 3.14159 / 180.0);
-        glVertex2f(x, y);
-    }
-    glEnd();
 }
 
 void drawGrid(GLFWwindow *window, int size)
@@ -104,6 +93,21 @@ void drawMap(GLFWwindow *window)
     float aspectRatio = calculateAspectRatio(window);
 
     float x = aspectRatio;
+
+    for (Obstacle o : currentMap.obstacles) {
+        int s;
+        glBegin(GL_POINTS);
+        glColor3f(1.0, 1.0, 1.0);
+        for (int i = o.leftLimit; i < o.rightLimit; i+=3) {
+            float x = aspectRatio * getNormalizedX(i);
+            int size;
+            float* y = o.calculate(i, size);
+            for (int yi = 0; yi < size; yi++) {
+                glVertex2f(x, getNormalizedY(y[yi]));
+            }
+        }
+        glEnd();
+    }
 
     glColor3f(0.04, 0.04, 0.04);
 

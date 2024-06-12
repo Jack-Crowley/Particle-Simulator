@@ -108,6 +108,8 @@ int main(int, char **)
 
     setCircles(circles);
 
+    loadMaps();
+
     while (!glfwWindowShouldClose(window))
     {
         // Figure out how t
