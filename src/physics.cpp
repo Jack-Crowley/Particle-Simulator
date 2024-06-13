@@ -4,6 +4,7 @@
 #include "sceneManager.h"
 #include <cmath>
 #include <stdio.h>
+#include "physics.h"
 
 // Do we need like a centralized list of like circles?
 
@@ -50,7 +51,16 @@ void handle_collision(Circle &circ1, Circle &circ2)
                 printf("Final circ1: (%f, %f)\n", circ1.position_cur.x, circ1.position_cur.y);
                 printf("Final circ2: (%f, %f)\n", circ2.position_cur.x, circ2.position_cur.y);
             }
+           
+          
+            if (circlesRepel){
+              
+                summonForceOn(Component(repel_magnitude * xDiff/distanceBetweenCircles,repel_magnitude * yDiff/distanceBetweenCircles), circ1);
+                summonForceOn(Component(-1*repel_magnitude * xDiff/distanceBetweenCircles,-1*repel_magnitude * yDiff/distanceBetweenCircles), circ2);
+            }
+        
         }
+
     }
 }
 
@@ -188,6 +198,25 @@ void summonForce(Component c)
         circle.accelerate(force);
     }
 }
+
+void summonForceOn(Component c, Circle &circle){
+    
+    Component force = Component(c.x,c.y);
+    circle.accelerate(force);
+    
+}
+
+void summonForceTowards(Component c){
+    for (Circle &circle : getCircles()){
+        if (!circle.enabled) continue;
+        Component force = Component((c.x-circle.position_cur.x),(c.y - circle.position_cur.y));
+        summonForceOn(force, circle);
+      
+    }
+}
+
+
+
 
 void update_physics(float dt)
 {
