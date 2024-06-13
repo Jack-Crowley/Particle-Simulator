@@ -168,22 +168,22 @@ void applyContraints()
         if (!circle.enabled)
             continue;
 
-        if (circle.position_cur.x < -500)
+        if (circle.position_cur.x < -491)
         {
-            circle.position_cur = Component(-500,circle.position_cur.y);
+            circle.position_cur = Component(-491,circle.position_cur.y);
         }
-        if (circle.position_cur.x > 500)
+        if (circle.position_cur.x > 491)
         {
-            circle.position_cur = Component(500,circle.position_cur.y);
+            circle.position_cur = Component(491,circle.position_cur.y);
         }
 
-        if (circle.position_cur.y < -500)
+        if (circle.position_cur.y < -491)
         {
-            circle.position_cur = Component(circle.position_cur.x,-500);
+            circle.position_cur = Component(circle.position_cur.x,-491);
         }
-        if (circle.position_cur.y > 400)
+        if (circle.position_cur.y > 491)
         {
-            circle.position_cur = Component(circle.position_cur.x,400);
+            circle.position_cur = Component(circle.position_cur.x,491);
         }
     }
 }
