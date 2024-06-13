@@ -12,8 +12,8 @@ public:
     GLenum lineMode;
 
     float* (*calculate)(float, int&);
-    Component (*derivative)(Circle, float, float);
-    Obstacle(int left, int right, GLenum mode, float* (*calculateFunction)(float, int&), Component (*derivativeFunction)(Circle, float, float));
+    float (*derivative)(float, float);
+    Obstacle(int left, int right, GLenum mode, float* (*calculateFunction)(float, int&), float (*derivativeFunction)(float, float));
 
     Component getXOfCross(Circle c);
 };

@@ -6,7 +6,7 @@
 #include "sceneManager.h"
 #include "staticManager.h"
 #include <cstdlib>
-#include <ctime> 
+#include <ctime>
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -28,22 +28,6 @@ static void glfw_error_callback(int error, const char *description)
 }
 
 Circle *clickedCircle = nullptr;
-Color colors[7] = {
-    Color(1.0f, 0.0f, 0.0f),
-    Color(1.0f, 0.5f, 0.0f),
-    Color(1.0f, 1.0f, 0.0f),
-    Color(0.0f, 1.0f, 0.0f),
-    Color(0.0f, 0.0f, 1.0f),
-    Color(0.29f, 0.0f, 0.51f),
-    Color(0.56f, 0.0f, 1.0f)
-};
-
-Color getRandomColor() {
-    srand(static_cast<unsigned int>(time(0)));
-    int randomIndex = rand() % 7;
-    return colors[randomIndex];
-
-}
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
@@ -55,13 +39,13 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         double xPos, yPos;
         glfwGetCursorPos(window, &xPos, &yPos);
 
-        float xValue = 2*((xPos-(getWidth(window)-getHeight(window))/2)/(getHeight(window))*1000-500);
-        Component comp = Component(xValue*calculateAspectRatio(window), -4/3*(yPos-360));
-        printf("Click at: (%f, %f)\n",comp.x , comp.y);
+        float xValue = 2 * ((xPos - (getWidth(window) - getHeight(window)) / 2) / (getHeight(window)) * 1000 - 500);
+        Component comp = Component(xValue * calculateAspectRatio(window), -4 / 3 * (yPos - 360));
+        printf("Click at: (%f, %f)\n", comp.x, comp.y);
         summonForce(comp);
-        for (Circle& c : getCircles())
+        for (Circle &c : getCircles())
         {
-            if (c.getDistance(comp) <= c.radius/2)
+            if (c.getDistance(comp) <= c.radius / 2)
             {
                 clickedCircle = &c;
                 return;
@@ -71,11 +55,13 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     }
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
     // ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
 
-    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-        circles.push_back(Circle(Component(0,0), getRandomColor()));
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        circles.push_back(Circle(Component(0, 0), getRandomColor()));
     }
 }
 
@@ -125,25 +111,13 @@ int main(int, char **)
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0, 0, 0, 1.00f);
 
-    std::vector<Circle> circles{
-        Circle(Component(125, 125), getRandomColor()),
-        // Circle(Component(-125, -125), Color(255, 255, 255)),
-        Circle(Component(125, -125), getRandomColor()),
-        // Circle(Component(-125, 125), Color(255, 255, 255)),
-        // Circle(Component(12, 0), Color(255, 255, 255)),
-        Circle(Component(-39, 0), getRandomColor()),
-        Circle(Component(91, 0), getRandomColor()),
-        // Circle(Component(-1, 0), Color(255, 255, 255)),
-    };
-
-    setCircles(circles);
-
     loadMaps();
 
     while (!glfwWindowShouldClose(window))
     {
         // Figure out how t
-        if (!pause) {
+        if (!pause)
+        {
             update_physics_sub_steps(1, 8);
         }
         glfwPollEvents();
@@ -157,28 +131,30 @@ int main(int, char **)
         static float size = 10.0f;
         static float scale = 10.0f;
         static bool showGrid = false;
-        
 
         {
+
+            // Your main window content
             ImGui::Begin("Particle Simulator!");
 
-            ImGui::NewLine();        
+            ImGui::NewLine();
 
-            ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
-            ImGui::SliderFloat("Speed", &fallSpeed, -.5f, .5f);
+            ImGui::SliderFloat("Size", &size, 1.0f, 250.0f, "Size: %.1f");
+            ImGui::SliderFloat("Speed", &fallSpeed, -0.5f, 0.5f, "Speed: %.2f");
 
-            ImGui::NewLine();        
+            ImGui::NewLine();
 
             ImGui::Checkbox("Show Grid", &showGrid);
             ImGui::Checkbox("Debug Mode", &debug);
             ImGui::Checkbox("Pause", &pause);
 
-            if (ImGui::Button("Move Physics")) {
+            if (ImGui::Button("Move Physics"))
+            {
                 update_physics_sub_steps(1, 8);
             }
 
-
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+
             ImGui::End();
         }
 
@@ -190,41 +166,68 @@ int main(int, char **)
             ImGui::InputFloat("Curr-X", &clickedCircle->position_cur.x);
             ImGui::InputFloat("Curr-Y", &clickedCircle->position_cur.y);
 
-            ImGui::NewLine();        
+            ImGui::NewLine();
 
             ImGui::Text("Old Position");
             ImGui::InputFloat("Old-X", &clickedCircle->position_old.x);
             ImGui::InputFloat("Old-Y", &clickedCircle->position_old.y);
 
-            ImGui::NewLine();    
+            ImGui::NewLine();
 
             ImGui::Text("Velocity");
             ImGui::InputFloat("Vel-X", &clickedCircle->velocity.x);
             ImGui::InputFloat("Vel-Y", &clickedCircle->velocity.y);
 
-            ImGui::NewLine();        
+            ImGui::NewLine();
 
             ImGui::Text("Acceleration");
             ImGui::InputFloat("Acc-X", &clickedCircle->acceleration.x);
             ImGui::InputFloat("Acc-Y", &clickedCircle->acceleration.y);
 
-            ImGui::NewLine();        
+            ImGui::NewLine();
 
             ImGui::Text("Jerk");
             ImGui::InputFloat("Jer-X", &clickedCircle->jerk.x);
             ImGui::InputFloat("Jer-Y", &clickedCircle->jerk.y);
 
-            ImGui::NewLine();    
+            ImGui::NewLine();
 
             ImGui::Text("Radius");
             ImGui::InputFloat("Radius", &clickedCircle->radius);
 
-            ImGui::NewLine();    
+            ImGui::NewLine();
 
             ImGui::Text("Enabled");
             ImGui::Checkbox("Enabled", &clickedCircle->enabled);
 
             ImGui::End();
+        }
+
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("File"))
+            {
+                if (ImGui::BeginMenu("Examples")) // Begin submenu
+                {
+                    if (ImGui::MenuItem("Circle"))
+                    {
+                        loadCircle();
+                    }
+                    if (ImGui::MenuItem("Parabula"))
+                    {
+                        loadParabola();
+                    }
+                    if (ImGui::MenuItem("Nothing"))
+                    {
+                        loadNothing();
+                    }
+                    ImGui::EndMenu(); // End submenu
+                }
+
+                ImGui::EndMenu(); // End "File" menu
+            }
+
+            ImGui::EndMainMenuBar();
         }
 
         ImGui::Render();

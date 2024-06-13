@@ -2,7 +2,7 @@
 #include "component.h"
 #include "stdio.h"
 
-Obstacle::Obstacle(int left, int right, GLenum mode, float* (*calculateFunction)(float, int&), Component (*derivativeFunction)(Circle, float, float))
+Obstacle::Obstacle(int left, int right, GLenum mode, float* (*calculateFunction)(float, int&), float (*derivativeFunction)(float, float))
 {
     leftLimit = left;
     rightLimit = right;

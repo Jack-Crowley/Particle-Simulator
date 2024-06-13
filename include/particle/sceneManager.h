@@ -2,6 +2,7 @@
 #define SCENE_MANAGER_H
 
 #include "circle.h"
+#include "color.h"
 #include "ParticleMap.h"
 #include <stdio.h>
 #include <vector>
@@ -20,5 +21,11 @@ void addCircles(Circle &circle);
 void addCircles(std::vector<Circle> &newCircles);
 
 void loadMaps();
+void spawnCircles();
+Color getRandomColor();
+
+void loadCircle();
+void loadParabola();
+void loadNothing();
 
 #endif

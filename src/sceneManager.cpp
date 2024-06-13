@@ -34,6 +34,22 @@ void addCircles(std::vector<Circle> &newCircles) {
 
 // Map Creation Stuff
 
+Color colors[7] = {
+    Color(1.0f, 0.0f, 0.0f),
+    Color(1.0f, 0.5f, 0.0f),
+    Color(1.0f, 1.0f, 0.0f),
+    Color(0.0f, 1.0f, 0.0f),
+    Color(0.0f, 0.0f, 1.0f),
+    Color(0.29f, 0.0f, 0.51f),
+    Color(0.56f, 0.0f, 1.0f)
+};
+
+Color getRandomColor() {
+    srand(static_cast<unsigned int>(time(0)));
+    int randomIndex = rand() % 7;
+    return colors[randomIndex];
+
+}
 
 float* calculateCircleWithRadius200(float x, int& size) {
     float posY = sqrt(pow(250, 2)-pow(x, 2));
@@ -48,48 +64,69 @@ float* calculateCircleWithRadius200(float x, int& size) {
 
 }
 
-float dotProduct(const Component& v1, const Component& v2) {
-    return v1.x * v2.x + v1.y * v2.y;
+float calculateDerivativeOfRadius200(float x, float y) {
+    return -x/y;
 }
 
-Component reflect(const Component& v, const Component& n) {
-    float dot = dotProduct(v, n);
-    return Component(
-        v.x - 2 * dot * n.x,
-        v.y - 2 * dot * n.y
-    );
+float* calculateUpsidedownParabula(float x, int& size) {
+    size = 1;
+    float* y = new float[size];
+    
+    y[0] = pow(x,2)/500-500;
+    
+    return y;
+
 }
 
-Component normalize(const Component& v) {
-    float magnitude = std::sqrt(v.x * v.x + v.y * v.y);
-    return Component(v.x / magnitude, v.y / magnitude);
-}
-
-// Function to create a normal vector from a slope
-Component normalFromSlope(float slope) {
-    // A normal vector to the line with slope can be (-slope, 1) or (slope, -1)
-    return normalize(Component(-slope, 1));
-}
-
-Component calculateDerivativeOfRadius200(Circle c, float x, float y) {
-    Component vector(x-c.position_cur.x, y-c.position_cur.y);
-    float slopeOfLine = -x/y;
-    printf("(%f, %f)\n", x, y);
-
-    Component normal = normalFromSlope(slopeOfLine);
-    Component reflected = reflect(vector, normal);
-
-    return reflected;
+float calculateUpsidedownDerivative(float x, float y) {
+    return 2*x/500;
 }
 
 void loadMaps()
 {
+    loadParabola();
+}
+
+void spawnCircles() {
+    std::vector<Circle> circles{
+        Circle(Component(0,0), getRandomColor()),
+    };
+
+    setCircles(circles);
+}
+
+void loadCircle()
+{
+    spawnCircles();
+
     ParticleMap circleMap = ParticleMap("circleMap");
     maps["circleMap"] = circleMap; 
 
     Obstacle bigCircle = Obstacle(-250, 250, GL_LINE_LOOP, &calculateCircleWithRadius200, &calculateDerivativeOfRadius200);
 
     circleMap.obstacles.push_back(bigCircle);
+
+    currentMap = circleMap;
+}
+
+void loadParabola() {
+    spawnCircles();
+
+    ParticleMap circleMap = ParticleMap("circleMap");
+    maps["circleMap"] = circleMap; 
+
+    Obstacle parabula = Obstacle(-500, 500, GL_LINE, &calculateUpsidedownParabula, &calculateUpsidedownDerivative);
+
+    circleMap.obstacles.push_back(parabula);
+
+    currentMap = circleMap;
+}
+
+void loadNothing() {
+    spawnCircles();
+
+    ParticleMap circleMap = ParticleMap("circleMap");
+    maps["circleMap"] = circleMap; 
 
     currentMap = circleMap;
 }
