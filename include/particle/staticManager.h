@@ -9,4 +9,5 @@ extern bool oldConstraints;
 extern float fallSpeed;
 extern bool circlesRepel;
 extern float repel_magnitude;
+extern bool spawnerActive;
 #endif

@@ -7,6 +7,7 @@
 #include "staticManager.h"
 #include <cstdlib>
 #include <ctime>
+#include "spawner.h"
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -125,6 +126,9 @@ int main(int, char **)
         // Figure out how t
         if (!pause)
         {
+            if (spawnerActive) {
+                spawnCircle();
+            }
             update_physics_sub_steps(1, 8);
         }
         glfwPollEvents();
@@ -161,10 +165,13 @@ int main(int, char **)
 
             ImGui::NewLine();
 
+            ImGui::Checkbox("Spawner", &spawnerActive);
             ImGui::Checkbox("Show Grid", &showGrid);
             ImGui::Checkbox("Debug Mode", &debug);
             ImGui::Checkbox("Pause", &pause);
             
+            
+            ImGui::NewLine();       
 
             if (ImGui::Button("Move Physics"))
             {
