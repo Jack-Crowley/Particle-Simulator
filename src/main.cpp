@@ -54,7 +54,7 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         {
             if (c.getDistance(comp) <= c.radius)
             {
-                clickedCircle = &c;
+                // clickedCircle = &c;
                 return;
             }
         }
@@ -147,13 +147,17 @@ int main(int, char **)
             ImGui::Checkbox("Add", &clickAdds);
             ImGui::Checkbox("Attract", &clickAttracts);
 
-            ImGui::Checkbox("Old Version", &oldConstraints);
-            ImGui::NewLine();        
-
-            ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
-            ImGui::SliderFloat("Speed", &fallSpeed, -.5f, .5f);
             ImGui::Checkbox("Repel?", &circlesRepel);
-            ImGui::SliderFloat("RepelMagnitude", &repel_magnitude, -50.0f, 50.0f);
+            ImGui::SliderFloat("RepelMagnitude", &repel_magnitude, -50.0f, 50.0f); 
+
+            ImGui::NewLine();       
+
+            ImGui::Checkbox("Old Version", &oldConstraints);
+            ImGui::NewLine();       
+
+            ImGui::SliderFloat("Size Of Grid", &size, 1.0f, 250.0f);
+            ImGui::SliderFloat("Gravity", &fallSpeed, -.5f, .5f);
+
 
             ImGui::NewLine();
 

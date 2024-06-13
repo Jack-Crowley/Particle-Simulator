@@ -35,20 +35,44 @@ void addCircles(std::vector<Circle> &newCircles) {
 
 // Map Creation Stuff
 
-Color colors[7] = {
-    Color(1.0f, 0.0f, 0.0f),
-    Color(1.0f, 0.5f, 0.0f),
-    Color(1.0f, 1.0f, 0.0f),
-    Color(0.0f, 1.0f, 0.0f),
-    Color(0.0f, 0.0f, 1.0f),
-    Color(0.29f, 0.0f, 0.51f),
-    Color(0.56f, 0.0f, 1.0f)
+Color colors[29] = {
+    Color(1.0f, 0.0f, 0.0f),      // Red
+    Color(1.0f, 0.1f, 0.0f),      // Red-Orange
+    Color(1.0f, 0.2f, 0.0f),      // Orange-Red
+    Color(1.0f, 0.3f, 0.0f),      // Orange-Red
+    Color(1.0f, 0.4f, 0.0f),      // Orange-Red
+    Color(1.0f, 0.5f, 0.0f),      // Orange
+    Color(1.0f, 0.6f, 0.0f),      // Yellow-Orange
+    Color(1.0f, 0.7f, 0.0f),      // Yellow-Orange
+    Color(1.0f, 0.8f, 0.0f),      // Yellow-Orange
+    Color(1.0f, 0.9f, 0.0f),      // Yellow-Orange
+    Color(1.0f, 1.0f, 0.0f),      // Yellow
+    Color(0.9f, 1.0f, 0.0f),      // Yellow-Green
+    Color(0.8f, 1.0f, 0.0f),      // Yellow-Green
+    Color(0.7f, 1.0f, 0.0f),      // Yellow-Green
+    Color(0.6f, 1.0f, 0.0f),      // Yellow-Green
+    Color(0.5f, 1.0f, 0.0f),      // Green-Yellow
+    Color(0.4f, 1.0f, 0.0f),      // Green-Yellow
+    Color(0.3f, 1.0f, 0.0f),      // Green-Yellow
+    Color(0.2f, 1.0f, 0.0f),      // Green-Yellow
+    Color(0.1f, 1.0f, 0.0f),      // Green-Yellow
+    Color(0.0f, 1.0f, 0.0f),      // Lime Green
+    Color(0.0f, 0.9f, 0.1f),      // Green-Cyan
+    Color(0.0f, 0.8f, 0.2f),      // Cyan-Green
+    Color(0.0f, 0.7f, 0.3f),      // Cyan-Green
+    Color(0.0f, 0.6f, 0.4f),       // Cyan-Green
+    Color(0.0f, 0.25f, 0.75f),    // Cyan-blue
+    Color(0.0f, 0.0f, 1.0f),      // Blue
+    Color(0.30f, 0.0f, 0.5f),     // Indigo
+    Color(0.56f, 0.0f, 1.0f)      // Purple
 };
+
+int counter = 0;
 
 Color getRandomColor() {
     srand(static_cast<unsigned int>(time(0)));
-    int randomIndex = rand() % 7;
-    return colors[randomIndex];
+    counter%=58;
+    return colors[(counter++)/2];
 
 }
 
