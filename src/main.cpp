@@ -1,9 +1,12 @@
 #include <vector>
 #include "circle.h"
 #include "renderer.h"
+#include "color.h"
 #include "physics.h"
 #include "sceneManager.h"
 #include "staticManager.h"
+#include <cstdlib>
+#include <ctime> 
 
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
@@ -25,6 +28,22 @@ static void glfw_error_callback(int error, const char *description)
 }
 
 Circle *clickedCircle = nullptr;
+Color colors[7] = {
+    Color(1.0f, 0.0f, 0.0f),
+    Color(1.0f, 0.5f, 0.0f),
+    Color(1.0f, 1.0f, 0.0f),
+    Color(0.0f, 1.0f, 0.0f),
+    Color(0.0f, 0.0f, 1.0f),
+    Color(0.29f, 0.0f, 0.51f),
+    Color(0.56f, 0.0f, 1.0f)
+};
+
+Color getRandomColor() {
+    srand(static_cast<unsigned int>(time(0)));
+    int randomIndex = rand() % 7;
+    return colors[randomIndex];
+
+}
 
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
@@ -52,6 +71,14 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
     }
 }
 
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    // ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
+
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+        circles.push_back(Circle(Component(0,0), getRandomColor()));
+    }
+}
+
 int main(int, char **)
 {
     const uint32_t frame_rate = 60;
@@ -71,6 +98,7 @@ int main(int, char **)
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetKeyCallback(window, key_callback);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -98,13 +126,13 @@ int main(int, char **)
     ImVec4 clear_color = ImVec4(0, 0, 0, 1.00f);
 
     std::vector<Circle> circles{
-        Circle(Component(125, 125), Color(255, 255, 255)),
+        Circle(Component(125, 125), getRandomColor()),
         // Circle(Component(-125, -125), Color(255, 255, 255)),
-        Circle(Component(125, -125), Color(255, 255, 255)),
+        Circle(Component(125, -125), getRandomColor()),
         // Circle(Component(-125, 125), Color(255, 255, 255)),
         // Circle(Component(12, 0), Color(255, 255, 255)),
-        Circle(Component(-39, 0), Color(255, 255, 255)),
-        Circle(Component(91, 0), Color(255, 255, 255)),
+        Circle(Component(-39, 0), getRandomColor()),
+        Circle(Component(91, 0), getRandomColor()),
         // Circle(Component(-1, 0), Color(255, 255, 255)),
     };
 

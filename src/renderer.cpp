@@ -44,8 +44,8 @@ void drawCircles(GLFWwindow *window)
 
     for (Circle &circ : getCircles())
     {
-        glBegin(GL_LINE_LOOP);
-        glColor3f(1.0, 1.0, 1.0);
+        glBegin(GL_TRIANGLE_FAN);
+        glColor3f(circ.color.red, circ.color.green, circ.color.blue);
         float radius = getNormalizedRadius(circ.radius);
         for (int i = 0; i < 360; i++)
         {
