@@ -16,6 +16,8 @@ void applyGravity();
 
 void applyConstraints();
 
+void oldApplyConstraints();
+
 void update_physics(float dt);
 
 void createCircle(Component c);
