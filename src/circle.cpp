@@ -4,6 +4,8 @@
 #include <math.h>
 #include <stdio.h>
 
+int r = 10;
+
 Circle::Circle() {
     this->position_cur = Component();
     this->position_old = Component();
@@ -11,7 +13,7 @@ Circle::Circle() {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = Color(255,255,255);
-    this->radius = 10;
+    this->radius = r;
     this->enabled = true;
 }
 
@@ -23,7 +25,7 @@ Circle::Circle(Component pos) {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = Color(255,255,255);
-    this->radius = 10;
+    this->radius = r;
     this->enabled = true;
 }
 
@@ -35,7 +37,7 @@ Circle::Circle(Component pos, Color c = Color(255,255,255)) {
     this->acceleration = Component();
     this->jerk = Component();
     this->color = c;
-    this->radius = 10;
+    this->radius = r;
     this->enabled = true;
 }
 
@@ -46,12 +48,13 @@ Circle::Circle(Component pos, Component initalVelocity, Color c = Color(255,255,
     this->acceleration = Component();
     this->jerk = Component();
     this->color = c;
-    this->radius = 10;
+    this->radius = r;
     this->enabled = true;
 }
 
 void Circle::update(float dt){
     //printf("(%f, %f)",position_cur.x , position_cur.y);
+
     velocity = Component(position_cur.x-position_old.x, position_cur.y-position_old.y);
 
     position_old = position_cur;
@@ -64,6 +67,7 @@ void Circle::update(float dt){
 void Circle::accelerate(Component acc){
 
     acceleration = Component(acc.x+acceleration.x, acc.y+acceleration.y);
+    acceleration.cap(3);
 }
 
 void Circle::shiftX(float shift){
@@ -77,4 +81,8 @@ void Circle::shiftY(float shift){
 
 float Circle::getDistance(Component pos) {
     return sqrt(pow(position_cur.x - pos.x, 2) + pow(position_cur.y - pos.y, 2));
+}
+
+float Circle::getDistanceOld(Component pos) {
+    return sqrt(pow(position_old.x - pos.x, 2) + pow(position_old.y - pos.y, 2));
 }

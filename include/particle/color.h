@@ -2,12 +2,11 @@
 #define COLOR_H
 
 class Color {
-private:
+public:
     float red;
     float green;
     float blue;
     float alpha;
-public:
     Color();
     Color(float r, float g, float b);
 };

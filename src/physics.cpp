@@ -84,17 +84,64 @@ void find_collisions(){
 }
 
 void detect_obstacles() {
-    // for (Obstacle o : currentMap.obstacles) {
-    //     for (Circle &circle : getCircles()){ 
-    //         Component c = o.getXOfCross(circle);
-    //         if (c.x != 0) {
-    //             circle.enabled = false;
-    //             // Component c1 = o.derivative(circle, c.x, c.y);
-    //             // printf("%f, %f\n", c1.x, c1.y);
-    //             return;
-    //         }
-    //     }
-    // }
+    for (Obstacle o : currentMap.obstacles) {
+        for (Circle &circle : getCircles()){ 
+            if (!circle.enabled) continue;
+            // if (circle.position_cur.x < 0 || circle.position_cur.x > 1000) {
+            //     circle.position_old.x*=-1;
+            // }
+            // if (circle.position_cur.y < 0 || circle.position_cur.y > 1000) {
+            //     circle.position_old.y*=-1;
+            // }
+
+            Component c = o.getXOfCross(circle);
+            if (c.x != 5000) {
+                double angleRadians = atan2(c.y-circle.position_old.y, c.x-circle.position_old.x);
+
+                // Incident vector (angle in standard position)
+                double I_x = cos(angleRadians);
+                double I_y = sin(angleRadians);
+
+                // Normal vector to the surface
+                double N_x = c.x/c.y;
+                double N_y = 1.0;
+
+                // Normalize the normal vector
+                double norm = sqrt(N_x * N_x + N_y * N_y);
+                N_x /= norm;
+                N_y /= norm;
+
+                // Dot product I . N
+                double dotProduct = I_x * N_x + I_y * N_y;
+
+                // Reflection vector calculation
+                double R_x = I_x - 2 * dotProduct * N_x;
+                double R_y = I_y - 2 * dotProduct * N_y;
+                R_y*=fallSpeed;
+
+                circle.position_old.set(circle.position_cur);
+
+                circle.acceleration.cap(.5f);
+                circle.accelerate(Component(R_x/100, R_y/100));
+
+                double divisor = sqrt(pow(R_x, 2)+pow(R_y,2));
+                double d = circle.getDistance(c) * 10;
+                double unitVectorX = (circle.position_cur.x - c.x) / d;
+                double unitVectorY = (circle.position_cur.y - c.y) / d;
+
+                circle.shiftX(unitVectorX);
+                circle.shiftY(unitVectorY);
+                
+                double d1 = circle.getDistance(c) * 100;
+                double newX = (circle.position_cur.x + c.x) / d1;
+                double newY = (circle.position_cur.y + c.y) / d1;
+
+                circle.position_old.set(circle.position_cur);
+                circle.position_old.x += newX;
+                circle.position_old.y += newY;
+            }
+        }
+    }
 }
 
 void applyGravity(){
@@ -110,25 +157,23 @@ void applyGravity(){
 }
 
 void applyContraints(){
-    Component origin = Component(0.0, 0.0);
-    float radius = 300.0;
-    for (Circle &circle : getCircles()){
-        if (!circle.enabled) continue;
-        // Maybe there's a better way to synchronize things?
-        Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
+    // Component origin = Component(0.0, 0.0);
+    // float radius = 300.0;
+    // for (Circle &circle : getCircles()){
+    //     if (!circle.enabled) continue;
+    //     // Maybe there's a better way to synchronize things?
+    //     Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
 
-        float dist = sqrt(to_obj.x*to_obj.x +  to_obj.y*to_obj.y);
-        // printf("Final circ2: (%f)\n",dist);
-        if (dist > radius){
+    //     float dist = sqrt(to_obj.x*to_obj.x +  to_obj.y*to_obj.y);
+    //     // printf("Final circ2: (%f)\n",dist);
+    //     if (dist > radius){
 
-            // Component n = Component(to_obj.x/dist, to_obj.y/dist);
-            // circle.position_cur = Component(circle.position_cur.x + n.x*(dist-50.0f),circle.position_cur.y + n.y*(dist-50.0f));
-            circle.position_cur = Component(circle.position_cur.x *radius/dist, circle.position_cur.y *radius/dist);
-            // float magnitude = -10;
-            // summonForceOn(Component(magnitude * to_obj.x/dist,magnitude * to_obj.x/dist), circle);
-        }
-        // Can probably have an apply forces method as well later on
-    }
+    //         // Component n = Component(to_obj.x/dist, to_obj.y/dist);
+    //         // circle.position_cur = Component(circle.position_cur.x + n.x*(dist-50.0f),circle.position_cur.y + n.y*(dist-50.0f));
+    //         circle.position_cur = Component(circle.position_cur.x *radius/dist, circle.position_cur.y *radius/dist);
+    //     }
+    //     // Can probably have an apply forces method as well later on
+    // }
 }
 
 void summonForceOn(Component c, Circle &circle){
