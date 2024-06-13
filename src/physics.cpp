@@ -5,6 +5,7 @@
 #include <cmath>
 #include <stdio.h>
 #include "physics.h"
+#include "partition.h"
 
 // Do we need like a centralized list of like circles?
 
@@ -67,20 +68,26 @@ void handle_collision(Circle &circ1, Circle &circ2)
 void find_collisions()
 {
 
-    // very unoptimized rn
+    Grid grid(1280, 720, getCircles()[0].radius);
+    grid.populateGrid(getCircles());
 
     for (Circle &circ1 : getCircles())
     {
         // if (!circ1.enabled)
         //     continue;
-        for (Circle &circ2 : getCircles())
-        {
-            // if (!circ2.enabled)
-            //     continue;
-            if (&circ1 != &circ2)
-            {
+        std::vector<GridCell> checkCells = grid.getNeighborCells(circ1);
 
-                handle_collision(circ1, circ2);
+        //for (Circle &circ2 : getCircles())
+        for (GridCell &cell : checkCells)
+        {
+            for (Circle &circ2 : cell.getCircles()) {
+                // if (!circ2.enabled)
+                //     continue;
+                if (&circ1 != &circ2)
+                {
+
+                    handle_collision(circ1, circ2);
+                }
             }
         }
     }
