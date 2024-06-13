@@ -191,7 +191,7 @@ void applyContraints()
 
 void oldApplyConstraints(){
     Component origin = Component(0.0, 0.0);
-    float radius = 200.0;
+    float radius = 240.0;
     for (Circle &circle : getCircles()){
         // Maybe there's a better way to synchronize things?
         Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
