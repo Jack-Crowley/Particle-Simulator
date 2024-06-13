@@ -14,6 +14,8 @@ public:
     void set(Component comp);
 
     void add(Component comp);
+
+    void cap(float maxValue);
 };
 
 #endif

@@ -99,13 +99,13 @@ int main(int, char **)
 
     std::vector<Circle> circles{
         Circle(Component(125, 125), Color(255, 255, 255)),
-        Circle(Component(-125, -125), Color(255, 255, 255)),
+        // Circle(Component(-125, -125), Color(255, 255, 255)),
         Circle(Component(125, -125), Color(255, 255, 255)),
-        Circle(Component(-125, 125), Color(255, 255, 255)),
-        Circle(Component(12, 0), Color(255, 255, 255)),
+        // Circle(Component(-125, 125), Color(255, 255, 255)),
+        // Circle(Component(12, 0), Color(255, 255, 255)),
         Circle(Component(-39, 0), Color(255, 255, 255)),
         Circle(Component(91, 0), Color(255, 255, 255)),
-        Circle(Component(-1, 0), Color(255, 255, 255)),
+        // Circle(Component(-1, 0), Color(255, 255, 255)),
     };
 
     setCircles(circles);

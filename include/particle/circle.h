@@ -31,6 +31,7 @@ public:
     void shiftY(float shift);
 
     float getDistance(Component pos);
+    float getDistanceOld(Component pos);
 };
 
 #endif

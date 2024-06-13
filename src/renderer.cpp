@@ -98,7 +98,7 @@ void drawMap(GLFWwindow *window)
         int s;
         glBegin(GL_POINTS);
         glColor3f(1.0, 1.0, 1.0);
-        for (int i = o.leftLimit; i < o.rightLimit; i+=3) {
+        for (float i = o.leftLimit; i < o.rightLimit; i+=5) {
             float x = aspectRatio * getNormalizedX(i);
             int size;
             float* y = o.calculate(i, size);
