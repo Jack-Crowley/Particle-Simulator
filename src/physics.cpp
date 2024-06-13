@@ -123,7 +123,7 @@ void detect_obstacles()
 
                 circle.position_old.set(circle.position_cur);
 
-                circle.acceleration.cap(.5f);
+            
                 circle.accelerate(Component(R_x / 100, R_y / 100));
 
                 double divisor = sqrt(pow(R_x, 2) + pow(R_y, 2));
