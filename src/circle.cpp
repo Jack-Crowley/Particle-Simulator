@@ -67,7 +67,7 @@ void Circle::update(float dt){
 void Circle::accelerate(Component acc){
 
     acceleration = Component(acc.x+acceleration.x, acc.y+acceleration.y);
-    acceleration.cap(3);
+    // acceleration.cap(3);
 }
 
 void Circle::shiftX(float shift){

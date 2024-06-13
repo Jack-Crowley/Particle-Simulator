@@ -41,12 +41,13 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 
         float xValue = 2*((xPos-(getWidth(window)-getHeight(window))/2)/(getHeight(window))*1000-500);
         Component comp = Component(xValue*calculateAspectRatio(window), -4/3*(yPos-360));
-        printf("Click at: (%f, %f)\n",comp.x , comp.y);
+        // printf("Click at: (%f, %f)\n",comp.x , comp.y);
         if (clickAdds){
-            Circle circ = Circle(comp);
+            Circle circ = Circle(comp, getRandomColor());
             addCircles(circ);
         }
         if (clickAttracts){
+            // printf("Attracts at: (%f, %f)\n",comp.x , comp.y);
             summonForceTowards(comp);
         }
         for (Circle& c : getCircles())

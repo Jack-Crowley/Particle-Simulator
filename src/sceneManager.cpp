@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <ctime>
 
 
 std::vector<Circle> circles;

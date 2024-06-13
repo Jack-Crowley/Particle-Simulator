@@ -71,12 +71,12 @@ void find_collisions()
 
     for (Circle &circ1 : getCircles())
     {
-        if (!circ1.enabled)
-            continue;
+        // if (!circ1.enabled)
+        //     continue;
         for (Circle &circ2 : getCircles())
         {
-            if (!circ2.enabled)
-                continue;
+            // if (!circ2.enabled)
+            //     continue;
             if (&circ1 != &circ2)
             {
 
@@ -170,32 +170,21 @@ void applyContraints()
 
         if (circle.position_cur.x < -500)
         {
-            circle.accelerate(Component(5, 0));
+            circle.position_cur = Component(-500,circle.position_cur.y);
         }
         if (circle.position_cur.x > 500)
         {
-            circle.accelerate(Component(-5, 0));
+            circle.position_cur = Component(500,circle.position_cur.y);
         }
 
         if (circle.position_cur.y < -500)
         {
-            circle.accelerate(Component(0, 5));
+            circle.position_cur = Component(circle.position_cur.x,-500);
         }
-        if (circle.position_cur.y > 500)
+        if (circle.position_cur.y > 400)
         {
-            circle.accelerate(Component(0, -5));
+            circle.position_cur = Component(circle.position_cur.x,400);
         }
-    }
-}
-
-void summonForce(Component c)
-{
-    for (Circle &circle : getCircles())
-    {
-        if (!circle.enabled)
-            continue;
-        Component force = Component((c.x - circle.position_cur.x) / 3, (c.y - circle.position_cur.y) / 3);
-        circle.accelerate(force);
     }
 }
 
@@ -203,12 +192,12 @@ void summonForceOn(Component c, Circle &circle){
     
     Component force = Component(c.x,c.y);
     circle.accelerate(force);
-    
+    // printf("Force at: (%f, %f)\n",force.x , force.y);
 }
 
 void summonForceTowards(Component c){
     for (Circle &circle : getCircles()){
-        if (!circle.enabled) continue;
+        // if (!circle.enabled) continue;
         Component force = Component((c.x-circle.position_cur.x),(c.y - circle.position_cur.y));
         summonForceOn(force, circle);
       
