@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <cmath>
 #include <vector>
+#include <algorithm>
+#include <iostream>
+
 
 std::vector<Circle> circles;
 std::map<std::string, ParticleMap> maps;
@@ -45,12 +48,46 @@ float* calculateCircleWithRadius200(float x, int& size) {
 
 }
 
+float dotProduct(const Component& v1, const Component& v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+Component reflect(const Component& v, const Component& n) {
+    float dot = dotProduct(v, n);
+    return Component(
+        v.x - 2 * dot * n.x,
+        v.y - 2 * dot * n.y
+    );
+}
+
+Component normalize(const Component& v) {
+    float magnitude = std::sqrt(v.x * v.x + v.y * v.y);
+    return Component(v.x / magnitude, v.y / magnitude);
+}
+
+// Function to create a normal vector from a slope
+Component normalFromSlope(float slope) {
+    // A normal vector to the line with slope can be (-slope, 1) or (slope, -1)
+    return normalize(Component(-slope, 1));
+}
+
+Component calculateDerivativeOfRadius200(Circle c, float x, float y) {
+    Component vector(x-c.position_cur.x, y-c.position_cur.y);
+    float slopeOfLine = -x/y;
+    printf("(%f, %f)\n", x, y);
+
+    Component normal = normalFromSlope(slopeOfLine);
+    Component reflected = reflect(vector, normal);
+
+    return reflected;
+}
+
 void loadMaps()
 {
     ParticleMap circleMap = ParticleMap("circleMap");
     maps["circleMap"] = circleMap; 
 
-    Obstacle bigCircle = Obstacle(-250, 250, GL_LINE_LOOP, &calculateCircleWithRadius200);
+    Obstacle bigCircle = Obstacle(-250, 250, GL_LINE_LOOP, &calculateCircleWithRadius200, &calculateDerivativeOfRadius200);
 
     circleMap.obstacles.push_back(bigCircle);
 

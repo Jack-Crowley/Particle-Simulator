@@ -191,6 +191,11 @@ int main(int, char **)
             ImGui::Text("Radius");
             ImGui::InputFloat("Radius", &clickedCircle->radius);
 
+            ImGui::NewLine();    
+
+            ImGui::Text("Enabled");
+            ImGui::Checkbox("Enabled", &clickedCircle->enabled);
+
             ImGui::End();
         }
 

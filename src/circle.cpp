@@ -12,6 +12,7 @@ Circle::Circle() {
     this->jerk = Component();
     this->color = Color(255,255,255);
     this->radius = 10;
+    this->enabled = true;
 }
 
 
@@ -23,6 +24,7 @@ Circle::Circle(Component pos) {
     this->jerk = Component();
     this->color = Color(255,255,255);
     this->radius = 10;
+    this->enabled = true;
 }
 
 
@@ -34,6 +36,7 @@ Circle::Circle(Component pos, Color c = Color(255,255,255)) {
     this->jerk = Component();
     this->color = c;
     this->radius = 10;
+    this->enabled = true;
 }
 
 Circle::Circle(Component pos, Component initalVelocity, Color c = Color(255,255,255)) {
@@ -44,6 +47,7 @@ Circle::Circle(Component pos, Component initalVelocity, Color c = Color(255,255,
     this->jerk = Component();
     this->color = c;
     this->radius = 10;
+    this->enabled = true;
 }
 
 void Circle::update(float dt){

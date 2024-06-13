@@ -12,6 +12,7 @@ public:
     Component acceleration;
     Component jerk;
     Color color;
+    bool enabled;
 
     // Idk if we want a changeable radius or if we want them to all be the same size
     // Currently use a radius in physics but can rework that if needed
