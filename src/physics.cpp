@@ -181,9 +181,9 @@ void applyContraints()
         {
             circle.position_cur = Component(circle.position_cur.x,-491);
         }
-        if (circle.position_cur.y > 491)
+        if (circle.position_cur.y > 450)
         {
-            circle.position_cur = Component(circle.position_cur.x,491);
+            circle.position_cur = Component(circle.position_cur.x,450);
         }
     }
 }
