@@ -39,10 +39,16 @@ void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
         float xValue = 2*((xPos-(getWidth(window)-getHeight(window))/2)/(getHeight(window))*1000-500);
         Component comp = Component(xValue*calculateAspectRatio(window), -4/3*(yPos-360));
         printf("Click at: (%f, %f)\n",comp.x , comp.y);
-        summonForce(comp);
+        if (clickAdds){
+            Circle circ = Circle(comp);
+            addCircles(circ);
+        }
+        if (clickAttracts){
+            summonForceTowards(comp);
+        }
         for (Circle& c : getCircles())
         {
-            if (c.getDistance(comp) <= c.radius/2)
+            if (c.getDistance(comp) <= c.radius)
             {
                 clickedCircle = &c;
                 return;
@@ -132,16 +138,22 @@ int main(int, char **)
         {
             ImGui::Begin("Particle Simulator!");
 
+            ImGui::Checkbox("Add", &clickAdds);
+            ImGui::Checkbox("Attract", &clickAttracts);
+
             ImGui::NewLine();        
 
             ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
             ImGui::SliderFloat("Speed", &fallSpeed, -.5f, .5f);
+            ImGui::Checkbox("Repel?", &circlesRepel);
+            ImGui::SliderFloat("RepelMagnitude", &repel_magnitude, -50.0f, 50.0f);
 
             ImGui::NewLine();        
 
             ImGui::Checkbox("Show Grid", &showGrid);
             ImGui::Checkbox("Debug Mode", &debug);
             ImGui::Checkbox("Pause", &pause);
+            
 
             if (ImGui::Button("Move Physics")) {
                 update_physics_sub_steps(1, 8);

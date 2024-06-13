@@ -18,8 +18,10 @@ void applyConstraints();
 
 void update_physics(float dt);
 
-void summonForce(Component c);
+void createCircle(Component c);
 
+void summonForceTowards(Component c);
 
+void summonForceOn(Component c, Circle &circ);
 
 void update_physics_sub_steps(float dt, int sub_steps);
