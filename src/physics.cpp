@@ -188,6 +188,27 @@ void applyContraints()
     }
 }
 
+
+void oldApplyConstraints(){
+    Component origin = Component(0.0, 0.0);
+    float radius = 200.0;
+    for (Circle &circle : getCircles()){
+        // Maybe there's a better way to synchronize things?
+        Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
+
+        float dist = sqrt(to_obj.x*to_obj.x +  to_obj.y*to_obj.y);
+        // printf("Final circ2: (%f)\n",dist);
+        if (dist > radius){
+
+            // Component n = Component(to_obj.x/dist, to_obj.y/dist);
+            // circle.position_cur = Component(circle.position_cur.x + n.x*(dist-50.0f),circle.position_cur.y + n.y*(dist-50.0f));
+            circle.position_cur = Component(circle.position_cur.x *radius/dist, circle.position_cur.y *radius/dist);
+        }
+        // Can probably have an apply forces method as well later on
+    }
+
+}
+
 void summonForceOn(Component c, Circle &circle){
     
     Component force = Component(c.x,c.y);
@@ -214,8 +235,13 @@ void update_physics(float dt)
 
     find_collisions();
     applyGravity();
-    applyContraints();
-    detect_obstacles();
+    if (oldConstraints){
+        oldApplyConstraints();
+    }
+    else{
+        applyContraints();
+        detect_obstacles();
+    }
     for (Circle &circle : getCircles())
     {
         if (!circle.enabled)

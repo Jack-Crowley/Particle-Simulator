@@ -4,6 +4,7 @@ bool debug = false;
 bool pause = false;
 bool clickAdds = false;
 bool clickAttracts = false;
+bool oldConstraints = false;
 float fallSpeed = 0.0f;
 bool circlesRepel = false;
 float repel_magnitude = 0.0f;

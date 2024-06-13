@@ -147,6 +147,7 @@ int main(int, char **)
             ImGui::Checkbox("Add", &clickAdds);
             ImGui::Checkbox("Attract", &clickAttracts);
 
+            ImGui::Checkbox("Old Version", &oldConstraints);
             ImGui::NewLine();        
 
             ImGui::SliderFloat("Size", &size, 1.0f, 250.0f);
