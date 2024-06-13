@@ -116,6 +116,8 @@ int main(int, char **)
 
     setCircles(circles);
 
+    loadMaps();
+
     while (!glfwWindowShouldClose(window))
     {
         // Figure out how t
@@ -200,6 +202,11 @@ int main(int, char **)
 
             ImGui::Text("Radius");
             ImGui::InputFloat("Radius", &clickedCircle->radius);
+
+            ImGui::NewLine();    
+
+            ImGui::Text("Enabled");
+            ImGui::Checkbox("Enabled", &clickedCircle->enabled);
 
             ImGui::End();
         }

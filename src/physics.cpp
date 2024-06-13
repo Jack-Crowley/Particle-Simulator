@@ -71,7 +71,9 @@ void find_collisions(){
     // very unoptimized rn
 
     for (Circle &circ1 : getCircles()){
+        if (!circ1.enabled) continue;
         for (Circle &circ2 : getCircles()){
+            if (!circ2.enabled) continue;
             if (&circ1 != &circ2){
 
                 handle_collision(circ1, circ2);
@@ -81,10 +83,25 @@ void find_collisions(){
     }
 }
 
+void detect_obstacles() {
+    // for (Obstacle o : currentMap.obstacles) {
+    //     for (Circle &circle : getCircles()){ 
+    //         Component c = o.getXOfCross(circle);
+    //         if (c.x != 0) {
+    //             circle.enabled = false;
+    //             // Component c1 = o.derivative(circle, c.x, c.y);
+    //             // printf("%f, %f\n", c1.x, c1.y);
+    //             return;
+    //         }
+    //     }
+    // }
+}
+
 void applyGravity(){
     // printf("fall speed: (%f)\n",fallSpeed);
     Component gravity = Component(0.0, -fallSpeed);
     for (Circle &circle : getCircles()) {
+        if (!circle.enabled) continue;
         // circle.position_cur.y -= fallSpeed;
         // Maybe there's a better way to synchronize things?
         circle.accelerate(gravity);
@@ -94,8 +111,9 @@ void applyGravity(){
 
 void applyContraints(){
     Component origin = Component(0.0, 0.0);
-    float radius = 200.0;
+    float radius = 300.0;
     for (Circle &circle : getCircles()){
+        if (!circle.enabled) continue;
         // Maybe there's a better way to synchronize things?
         Component to_obj = Component(circle.position_cur.x - origin.x, circle.position_cur.y - origin.y);
 
@@ -122,6 +140,7 @@ void summonForceOn(Component c, Circle &circle){
 
 void summonForceTowards(Component c){
     for (Circle &circle : getCircles()){
+        if (!circle.enabled) continue;
         Component force = Component((c.x-circle.position_cur.x),(c.y - circle.position_cur.y));
         summonForceOn(force, circle);
       
@@ -140,7 +159,9 @@ void update_physics(float dt)
     find_collisions();
     applyGravity();
     applyContraints();
+    detect_obstacles();
     for (Circle &circle : getCircles()){
+        if (!circle.enabled) continue;
         // Maybe there's a better way to synchronize things?
         circle.update(dt);
         // Can probably have an apply forces method as well later on
